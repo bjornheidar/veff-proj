@@ -1,0 +1,16 @@
+Author: Björn Heiðar Rúnarsson
+
+Project 3 in the course Web services at RU
+
+To run:
+pip install from requirements.txt, uncomment kodemon if you wish to run testing as well
+
+Run the KodemonUDPServer in one cmd and the KodemonAPI in another
+
+KodemonUDPServer listens by default on localhost:4000
+
+KodemonAPI listens by default on localhost:4000
+API routes are as follows:
+/  				==> returns the index page
+/api/v1/keys 	==> returns all the distinct keys that have been used
+/api/v1/executiontime/key=key[&start_date=<int:timestamp>[&end_date=<int:timestamp]]

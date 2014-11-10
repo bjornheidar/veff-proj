@@ -1,0 +1,4 @@
+SQLAlchemy
+flask
+flask-sqlalchemy
+git+https://github.com/hlysig/kodemon-python
