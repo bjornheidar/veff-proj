@@ -1,5 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Table, Column, Integer, String, Float, MetaData
+import os
 
 Base = declarative_base()
 
@@ -53,10 +54,8 @@ class MessageExtension(db.Model):
 		self.value = value
 
 if __name__ == '__main__':
-
-
-if not os.path.exists('AppData'):
-	os.mkdir('AppData')
+	if not os.path.exists('AppData'):
+		os.mkdir('AppData')
 
 	engine = create_engine('sqlite:///AppData/Kodemon.sqlite')
 	connection = engine.connect()

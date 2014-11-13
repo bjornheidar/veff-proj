@@ -11,7 +11,7 @@ def test1():
 def test2():
 	time.sleep(random.choice(range(2)))
 
-@kodemon(smack='derp')
+@kodemon(smack=5.0)
 def test3():
 	pass
 
