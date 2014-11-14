@@ -24,7 +24,7 @@ class KodemonUDPHandler(BaseRequestHandler):
         for k in jdat.keys():
             if k not in base_keys:
                 item = jdat[k]
-                msg_extensions.append(UDPMessageExtension(name=k, type=type(item), value=str(item)))
+                msg_extensions.append(UDPMessageExtension(name=k, type=type(item).__name__, value=str(item)))
 
         #start session/connect to db
         session = self.server.Session()

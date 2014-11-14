@@ -1,5 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, Table, Column, Integer, String, Float, MetaData
+from sqlalchemy import create_engine, Table, Column, Integer, String, Float, MetaData, ForeignKey
+from sqlalchemy.orm import relationship, backref
 import os
 
 Base = declarative_base()
@@ -14,13 +15,18 @@ class UDPMessageBase(Base):
     timestamp = Column(Integer, nullable=False)
     token = Column(String, nullable=False)
 
-class UDPMessageExtension(declarative_base()):
+    extensions = relationship('UDPMessageExtension',order_by='UDPMessageExtension.id' ,backref='base')
+
+class UDPMessageExtension(Base):
     __tablename__ = 'message_extension'
 
     id = Column(Integer, primary_key=True, nullable=False)
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)
     value = Column(String, nullable=False)
+    base_id = Column(Integer, ForeignKey(''))
+
+    base_id = relationship('UDPMessageBase', backref=backref('extensions', order_by=id))
 
 
 #Models for the Kodemon API to retain the query ability provided by Flask-SQLAlchemy extension
@@ -58,18 +64,20 @@ if __name__ == '__main__':
 		os.mkdir('AppData')
 
 	engine = create_engine('sqlite:///AppData/Kodemon.sqlite')
-	connection = engine.connect()
+	Base.metadata.create_all(engine)
 
-	metadata = MetaData()
+	#connection = engine.connect()
 
-	message_base = Table('message_base', metadata,
-		Column('id', Integer, primary_key=True),
-		Column('key', String, nullable=False),
-		Column('execution_time', Float, nullable=False),
-		Column('timestamp', Integer, nullable=False),
-		Column('token', String, nullable=False)
-	)
+	#metadata = MetaData()
 
-	metadata.create_all(engine)
+	#message_base = Table('message_base', metadata,
+	#	Column('id', Integer, primary_key=True),
+	#	Column('key', String, nullable=False),
+	#	Column('execution_time', Float, nullable=False),
+	#	Column('timestamp', Integer, nullable=False),
+	#	Column('token', String, nullable=False)
+	#)
 
-	connection.close()
+	#metadata.create_all(engine)
+
+	#connection.close()
