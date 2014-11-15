@@ -19,21 +19,21 @@ class KodemonUDPHandler(BaseRequestHandler):
             token=jdat['token']
             )
 
-        #create message_extened to add to the database
-        msg_extensions = []
-        for k in jdat.keys():
-            if k not in base_keys:
-                item = jdat[k]
-                msg_extensions.append(UDPMessageExtension(name=k, type=type(item).__name__, value=str(item)))
-
         #start session/connect to db
         session = self.server.Session()
 
         #insert and commit
         session.add(msg_base)
-        for me in msg_extensions:
-            session.add(me)
         session.commit()
+
+        #create message_extened to add to the database
+        """msg_extensions = []
+        for k in jdat.keys():
+            if k not in base_keys:
+                item = jdat[k]
+                msg_extensions.append(UDPMessageExtension(name=k, type=type(item).__name__, value=str(item)))
+
+        session.add_all(msg_extensions)"""
 
 class KodemonUDPServer(UDPServer):
     def __init__(self, HOST='localhost', PORT=4000, handler=KodemonUDPHandler, db_conn_string='sqlite:///AppData/Kodemon.sqlite'):

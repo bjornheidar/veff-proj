@@ -15,7 +15,7 @@ class UDPMessageBase(Base):
     timestamp = Column(Integer, nullable=False)
     token = Column(String, nullable=False)
 
-    extensions = relationship('UDPMessageExtension',order_by='UDPMessageExtension.id' ,backref='base')
+    #extensions = relationship('UDPMessageExtension',order_by='UDPMessageExtension.id' ,backref='base')
 
 class UDPMessageExtension(Base):
     __tablename__ = 'message_extension'
@@ -24,9 +24,9 @@ class UDPMessageExtension(Base):
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)
     value = Column(String, nullable=False)
-    base_id = Column(Integer, ForeignKey(''))
+    #base_id = Column(Integer, ForeignKey(''))
 
-    base_id = relationship('UDPMessageBase', backref=backref('extensions', order_by=id))
+    #base_id = relationship('UDPMessageBase', backref=backref('extensions', order_by=id))
 
 
 #Models for the Kodemon API to retain the query ability provided by Flask-SQLAlchemy extension
