@@ -27,13 +27,14 @@ class KodemonUDPHandler(BaseRequestHandler):
         session.commit()
 
         #create message_extened to add to the database
-        """msg_extensions = []
+        msg_extensions = []
         for k in jdat.keys():
             if k not in base_keys:
                 item = jdat[k]
-                msg_extensions.append(UDPMessageExtension(name=k, type=type(item).__name__, value=str(item)))
+                msg_extensions.append(UDPMessageExtension(name=k, type=type(item).__name__, value=str(item), base_id=msg_base.id))
 
-        session.add_all(msg_extensions)"""
+        session.add_all(msg_extensions)
+        session.commit()
 
 class KodemonUDPServer(UDPServer):
     def __init__(self, HOST='localhost', PORT=4000, handler=KodemonUDPHandler, db_conn_string='sqlite:///AppData/Kodemon.sqlite'):

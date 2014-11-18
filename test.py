@@ -15,12 +15,22 @@ def test2():
 def test3():
 	pass
 
+@kodemon(smack=5)
+def test4():
+	pass
+
+@kodemon(smack='Derp', derp=5)
+def test5():
+	pass
+
 def tests():
 	i = 0
 	while i < 5:
 		test1()
 		test2()
 		test3()
+		test4()
+		test5()
 		i += 1
 	
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ class UDPMessageBase(Base):
     timestamp = Column(Integer, nullable=False)
     token = Column(String, nullable=False)
 
-    #extensions = relationship('UDPMessageExtension',order_by='UDPMessageExtension.id' ,backref='base')
+    extensions = relationship('UDPMessageExtension')
 
 class UDPMessageExtension(Base):
     __tablename__ = 'message_extension'
@@ -24,9 +24,7 @@ class UDPMessageExtension(Base):
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)
     value = Column(String, nullable=False)
-    #base_id = Column(Integer, ForeignKey(''))
-
-    #base_id = relationship('UDPMessageBase', backref=backref('extensions', order_by=id))
+    base_id = Column(Integer, ForeignKey('message_base.id'))
 
 
 #Models for the Kodemon API to retain the query ability provided by Flask-SQLAlchemy extension
@@ -53,6 +51,9 @@ class MessageExtension(db.Model):
 	name = db.Column(db.String, nullable=False)
 	type = db.Column(db.String, nullable=False)
 	value = db.Column(db.String, nullable=False)
+	base_id = db.Column(db.Integer, db.ForeignKey('message_base.id'))
+	
+	base = db.relationship('MessageBase')
 
 	def __init__(name, type, value):
 		self.name = name
@@ -65,19 +66,3 @@ if __name__ == '__main__':
 
 	engine = create_engine('sqlite:///AppData/Kodemon.sqlite')
 	Base.metadata.create_all(engine)
-
-	#connection = engine.connect()
-
-	#metadata = MetaData()
-
-	#message_base = Table('message_base', metadata,
-	#	Column('id', Integer, primary_key=True),
-	#	Column('key', String, nullable=False),
-	#	Column('execution_time', Float, nullable=False),
-	#	Column('timestamp', Integer, nullable=False),
-	#	Column('token', String, nullable=False)
-	#)
-
-	#metadata.create_all(engine)
-
-	#connection.close()

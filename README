@@ -3,9 +3,9 @@ Author: Björn Heiðar Rúnarsson
 Project 3 in the course Web services at RU
 
 To run:
-pip install from requirements.txt, uncomment kodemon if you wish to run testing as well
+pip install from requirements.txt
 
-Run the KodemonUDPServer in one cmd and the KodemonAPI in another
+Run Kodemon.py, it will start both the UDP server and the API server
 
 KodemonUDPServer listens by default on localhost:4000
 
