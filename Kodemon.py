@@ -6,7 +6,7 @@ def StartUDPServer():
 	server.serve_forever()
 	
 def StartAPI():
-	api = KodemonAPI.KodemonAPI()
+	api = KodemonAPI.KodemonAPI(debug=False)
 	api.run()
 	
 def sigintHandler(signum, frame):

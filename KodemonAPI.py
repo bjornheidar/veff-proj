@@ -5,9 +5,9 @@ import json, sys, getopt
 
 
 class KodemonAPI():
-	def __init__(self, SERVER_NAME='localhost:4000', db_conn_string='sqlite:///AppData/Kodemon.sqlite'):
+	def __init__(self, SERVER_NAME='localhost:4000', db_conn_string='sqlite:///AppData/Kodemon.sqlite', debug=True):
 		self.app = Flask(__name__)
-		#self.app.debug = True
+		self.app.debug = debug
 
 		self.app.config['SERVER_NAME'] = SERVER_NAME
 		
@@ -26,10 +26,14 @@ class KodemonAPI():
 			return self.app.send_static_file('index.html')
 
 
-		api_prefix = '/api/v1'
+		api_prefix = '/api/v1/'
+		
+		@self.app.route(api_prefix + 'messages/', methods=['GET'])
+		def messages():
+			return 'This will return all messages'
 
-		@self.app.route(api_prefix + '/keys/', methods=['GET'])
-		def keys():
+		@self.app.route(api_prefix + 'messages/keys/', methods=['GET'])
+		def message_keys():
 			result = []
 			for m in MessageBase.query.all():
 				if m.key not in result:
@@ -37,8 +41,8 @@ class KodemonAPI():
 
 			return json.dumps(result)
 
-		@self.app.route(api_prefix + '/keys/<key>/execution_times/', methods=['GET'])
-		def execution_times(key):
+		@self.app.route(api_prefix + 'messages/execution_times/<key>', methods=['GET'])
+		def message_execution_times(key):
 			#get query parameters (may be None)
 			start_time, end_time = request.args.get('start_time'), request.args.get('end_time')
 
@@ -59,10 +63,7 @@ class KodemonAPI():
 					times.append({'execution_time': m.execution_time, 'timestamp': m.timestamp, 'token': m.token})
 
 			result = {'key': key, 'execution_times': times}
-			print result
 			return json.dumps(result)
-
-
 
 if __name__ == '__main__':
 	api = KodemonAPI()

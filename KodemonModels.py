@@ -38,6 +38,8 @@ class MessageBase(db.Model):
 	execution_time = db.Column(db.Float, nullable=False)
 	timestamp = db.Column(db.Integer, nullable=False)
 	token = db.Column(db.String, nullable=False)
+	
+	extensions = db.relationship('MessageExtension')
 
 	def __init__(key, execution_time, timestamp, token):
 		self.key = key
